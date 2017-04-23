@@ -56,5 +56,8 @@ class Calculator(object):
         elif context.browser.option == 'times':
             assert answer_text == str(context.browser.first_number * context.browser.second_number)
         elif context.browser.option == 'divide':
-            assert answer_text in str(context.browser.first_number / context.browser.second_number)
+            if (context.browser.first_number != 0 and context.browser.second_number != 0):
+                assert answer_text in str(context.browser.first_number / context.browser.second_number)
+            else:
+                assert answer_text == '0'
         time.sleep(3)

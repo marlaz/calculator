@@ -2,7 +2,7 @@
 
     Scenario: Add two numbers
       Given that the Calculator app is loaded
-      When you enter '5' as the first number in the calculator
+      When you enter '0' as the first number in the calculator
       And you enter '6' as the second number
       And you click the 'plus' button
       And you click the equals button
