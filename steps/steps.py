@@ -13,6 +13,24 @@ class Calculator(object):
             'http://seleniumsimplified.com/testpages/calculate.php'
         )
 
+    @step('there is no current value in the calculator')
+    def check_current_value(context):
+        first_number_input = context.browser.find_element_by_xpath(
+            '//input[@id="number1"]'
+        )
+        second_number_input = context.browser.find_element_by_xpath(
+            '//input[@id="number2"]'
+        )
+
+        if first_number_input.get_attribute("value") != '':
+            first_number_input.clear()
+            if second_number_input.get_attribute("value") != "":
+                second_number_input.clear()
+        assert (
+            first_number_input.get_attribute("value") and
+            second_number_input.get_attribute("value")
+            ) == ''
+
     @step('you enter \'{first_number}\' as the first number in the calculator')
     def enter_first_number(context, first_number):
         first_number_input = context.browser.find_element_by_xpath(
@@ -74,4 +92,3 @@ class Calculator(object):
                 )
             else:
                 assert answer_text == '0'
-        time.sleep(3)
