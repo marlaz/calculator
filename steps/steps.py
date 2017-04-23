@@ -48,13 +48,13 @@ class Calculator(object):
     @step('the value displayed is the correct sum for the two numbers entered')
     def correct_answer(context):
         answer = context.browser.find_element_by_xpath('//span[@id="answer"]')
-        answer_text = int(answer.text)
+        answer_text = answer.text
         if context.browser.option == 'plus':
-            assert answer_text == (context.browser.first_number + context.browser.second_number)
+            assert answer_text == str(context.browser.first_number + context.browser.second_number)
         elif context.browser.option == 'minus':
-            assert answer_text == (context.browser.first_number - context.browser.second_number)
+            assert answer_text == str(context.browser.first_number - context.browser.second_number)
         elif context.browser.option == 'times':
-            assert answer_text == (context.browser.first_number * context.browser.second_number)
+            assert answer_text == str(context.browser.first_number * context.browser.second_number)
         elif context.browser.option == 'divide':
-            assert answer_text == (context.browser.first_number / context.browser.second_number)
-        #import ipdb; ipdb.set_trace()
+            assert answer_text in str(context.browser.first_number / context.browser.second_number)
+            #import ipdb; ipdb.set_trace()
