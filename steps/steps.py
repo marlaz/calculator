@@ -45,7 +45,7 @@ class Calculator(object):
         )
         equals.click()
 
-    @step('the value displayed is the correct sum for the two numbers entered')
+    @step('the value displayed is the correct result for the two numbers entered')
     def correct_answer(context):
         answer = context.browser.find_element_by_xpath('//span[@id="answer"]')
         answer_text = answer.text
@@ -57,4 +57,4 @@ class Calculator(object):
             assert answer_text == str(context.browser.first_number * context.browser.second_number)
         elif context.browser.option == 'divide':
             assert answer_text in str(context.browser.first_number / context.browser.second_number)
-            #import ipdb; ipdb.set_trace()
+        time.sleep(3)
