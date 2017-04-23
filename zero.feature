@@ -1,6 +1,6 @@
   Feature: As a calculator user I want to add, multiply and divide numbers So I can do simple maths quickly
 
-    Scenario: Add two numbers
+    Scenario: simple maths
       Given that the Calculator app is loaded
       And there is no current value in the calculator
       When you enter '0' as the first number in the calculator
@@ -18,7 +18,7 @@
       And you click the equals button
       Then the value displayed is the correct result for the two numbers entered
 
-    Scenario: Add two numbers
+    Scenario: simple maths part 2
       Given there is no current value in the calculator
       When you enter '7' as the first number in the calculator
       And you enter '1' as the second number in the calculator

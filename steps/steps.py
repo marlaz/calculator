@@ -1,9 +1,7 @@
-from behave import *
-from selenium import webdriver
+from behave import step, use_step_matcher
 
 
 import environment
-import time
 
 
 class Calculator(object):
@@ -16,22 +14,22 @@ class Calculator(object):
     @step('there is no current value in the calculator')
     def check_current_value(context):
         first_number_input = context.browser.find_element_by_xpath(
-            '//input[@id="number1"]'
+            '//input[@id=\'number1\']'
         )
         second_number_input = context.browser.find_element_by_xpath(
-            '//input[@id="number2"]'
+            '//input[@id=\'number2\']'
         )
 
-        if first_number_input.get_attribute("value") != '':
+        if first_number_input.get_attribute('value') != '':
             first_number_input.clear()
-            if second_number_input.get_attribute("value") != "":
+            if second_number_input.get_attribute('value') != '':
                 second_number_input.clear()
         assert (
-            first_number_input.get_attribute("value") and
-            second_number_input.get_attribute("value")
-            ) == ''
+            first_number_input.get_attribute('value') == '' and
+            second_number_input.get_attribute('value') == ''
+            )
 
-    use_step_matcher("re")
+    use_step_matcher('re')
 
     @step(
         'you enter \'(?P<number>.*)\' as the (?P<field>first|second) '
@@ -40,13 +38,13 @@ class Calculator(object):
     def enter_number(context, number, field):
         if field == 'first':
             first_number_input = context.browser.find_element_by_xpath(
-                '//input[@id="number1"]'
+                '//input[@id=\'number1\']'
             )
             first_number_input.send_keys(number)
             context.browser.first_number = int(number)
         else:
             second_number_input = context.browser.find_element_by_xpath(
-                '//input[@id="number2"]'
+                '//input[@id=\'number2\']'
             )
             second_number_input.send_keys(number)
             context.browser.second_number = int(number)
@@ -55,7 +53,9 @@ class Calculator(object):
     @step('you click the \'{operation}\' button')
     def click_option(context, operation):
         option = context.browser.find_element_by_xpath(
-            '//option[contains(., "{operation}")]'.format(operation=operation)
+            '//option[contains(., \'{operation}\')]'.format(
+                operation=operation
+                )
         )
         option.click()
         context.browser.option = operation
@@ -63,7 +63,7 @@ class Calculator(object):
     @step('you click the equals button')
     def click_equals(context):
         equals = context.browser.find_element_by_xpath(
-            '//input[@id="calculate"]'
+            '//input[@id=\'calculate\']'
         )
         equals.click()
 
@@ -71,7 +71,9 @@ class Calculator(object):
         'the value displayed is the correct result for the two numbers entered'
         )
     def correct_answer(context):
-        answer = context.browser.find_element_by_xpath('//span[@id="answer"]')
+        answer = context.browser.find_element_by_xpath(
+            '//span[@id=\'answer\']'
+            )
         answer_text = answer.text
         print(answer_text)
         if context.browser.option == 'plus':
