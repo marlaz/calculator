@@ -75,7 +75,6 @@ class Calculator(object):
             '//span[@id=\'answer\']'
             )
         answer_text = answer.text
-        print(answer_text)
         if context.browser.option == 'plus':
             assert answer_text == str(
                 context.browser.first_number + context.browser.second_number
