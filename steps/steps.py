@@ -31,21 +31,26 @@ class Calculator(object):
             second_number_input.get_attribute("value")
             ) == ''
 
-    @step('you enter \'{first_number}\' as the first number in the calculator')
-    def enter_first_number(context, first_number):
-        first_number_input = context.browser.find_element_by_xpath(
-            '//input[@id="number1"]'
-        )
-        first_number_input.send_keys(first_number)
-        context.browser.first_number = int(first_number)
+    use_step_matcher("re")
 
-    @step('you enter \'{second_number}\' as the second number')
-    def enter_second_number(context, second_number):
-        second_number_input = context.browser.find_element_by_xpath(
-            '//input[@id="number2"]'
+    @step(
+        'you enter \'(?P<number>.*)\' as the (?P<field>first|second) '
+        'number in the calculator'
         )
-        second_number_input.send_keys(second_number)
-        context.browser.second_number = int(second_number)
+    def enter_number(context, number, field):
+        if field == 'first':
+            first_number_input = context.browser.find_element_by_xpath(
+                '//input[@id="number1"]'
+            )
+            first_number_input.send_keys(number)
+            context.browser.first_number = int(number)
+        else:
+            second_number_input = context.browser.find_element_by_xpath(
+                '//input[@id="number2"]'
+            )
+            second_number_input.send_keys(number)
+            context.browser.second_number = int(number)
+    use_step_matcher('parse')
 
     @step('you click the \'{operation}\' button')
     def click_option(context, operation):
@@ -82,10 +87,7 @@ class Calculator(object):
                 context.browser.first_number * context.browser.second_number
             )
         elif context.browser.option == 'divide':
-            if (
-                context.browser.first_number != 0 and
-                    context.browser.second_number != 0
-                    ):
+            if (context.browser.second_number != 0):
                 assert answer_text in str(
                     context.browser.first_number /
                     context.browser.second_number
